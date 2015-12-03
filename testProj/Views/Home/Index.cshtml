@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="">
+<head>
+
+    <title>TITLE</title>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache">
+
+    @Styles.Render("~/css")
+
+    <base href="/">
+
+</head>
+<body>
+
+    <div class="overlay" data-loader="">
+        <div class="loader">
+            Loading...
+        </div>
+    </div>
+    <div class="pagewrap" id="ui-view" data-ng-view="" data-ng-cloak=""></div>
+
+
+    @Scripts.Render("~/js")
+
+
+    <script type="text/javascript">
+
+		// SPA running
+		var appConfig = new AppConfig();
+		angular.element(document).ready(function () {
+
+			// angular bootstrapping
+			var config = appConfig.appConfig;
+
+			angular.module('App').constant('appConfig', config);
+			angular.bootstrap(document, ['App']);
+
+		});
+    </script>
+
+</body>
+</html>
