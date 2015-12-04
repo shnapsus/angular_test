@@ -17,33 +17,44 @@
     <base href="/">
 
 </head>
-<body>
+<body ng-app="TestApp">
 
-    <div class="overlay" data-loader="">
+    <!--<div class="overlay" data-loader="">
         <div class="loader">
             Loading...
         </div>
+    </div>-->
+    <!--<div class="pagewrap" id="ui-view" data-ng-view="" data-ng-cloak=""></div>-->
+
+    <div class="container">
+        <div ng-controller="TestController">
+            <h1>Testing</h1>
+            <ul>
+                <li ng-repeat="item in items">
+                    {{item.name}}
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="pagewrap" id="ui-view" data-ng-view="" data-ng-cloak=""></div>
 
 
     @Scripts.Render("~/js")
 
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
-		// SPA running
-		var appConfig = new AppConfig();
-		angular.element(document).ready(function () {
+            // SPA running
+            var appConfig = new AppConfig();
+            angular.element(document).ready(function () {
 
-			// angular bootstrapping
-			var config = appConfig.appConfig;
+                // angular bootstrapping
+                var config = appConfig.appConfig;
 
-			angular.module('App').constant('appConfig', config);
-			angular.bootstrap(document, ['App']);
+                angular.module('App').constant('appConfig', config);
+                angular.bootstrap(document, ['App']);
 
-		});
-    </script>
+            });
+        </script>*@
 
 </body>
 </html>
