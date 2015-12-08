@@ -181,7 +181,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -200,6 +199,8 @@
     <Content Include="app\config\routes.js" />
     <Content Include="app\modules\index\index.tpl.html" />
     <Content Include="app\modules\index\indexController.js" />
+    <Content Include="Content\jasmine\jasmine.css" />
+    <Content Include="Content\jasmine\jasmine_favicon.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -259,6 +260,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\loader1.gif" />
+    <Content Include="libraries\angular\angular-mocks.js" />
     <Content Include="libraries\angular\angular-route.js" />
     <Content Include="libraries\angular\angular-sanitize.js" />
     <Content Include="libraries\angular\angular-touch.js" />
@@ -267,6 +269,18 @@
     <Content Include="libraries\jquery\jquery-2.1.1.js" />
     <Content Include="libraries\QUnit\qunit-1.17.1.css" />
     <Content Include="libraries\QUnit\qunit-1.17.1.js" />
+    <Content Include="ng-test-app\app.js" />
+    <Content Include="ng-test-app\controllers.js" />
+    <Content Include="ng-test-app\dataService.js" />
+    <Content Include="ng-test-app\directives.js" />
+    <Content Include="ng-test-app\filters.js" />
+    <Content Include="ng-test-app\router.js" />
+    <Content Include="ng-test-app\tests\unit\app-tests.js" />
+    <Content Include="libraries\jasmine\boot.js" />
+    <Content Include="libraries\jasmine\console.js" />
+    <Content Include="libraries\jasmine\jasmine-html.js" />
+    <Content Include="libraries\jasmine\jasmine.js" />
+    <Content Include="ng-test-app\tests\TestsRunner.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -280,12 +294,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ng-test-app\templates\" />
+    <Folder Include="ng-test-app\tests\e2e\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ng-test-app\data.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
