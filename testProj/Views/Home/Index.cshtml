@@ -15,9 +15,20 @@
     @Styles.Render("~/css")
 
     <base href="/">
-
+    <style>
+        .breadcrumbs li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+        }
+        .breadcrumbs ul {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
-<body ng-app="TestApp">
+<body>
 
     <!--<div class="overlay" data-loader="">
         <div class="loader">
@@ -27,18 +38,37 @@
     <!--<div class="pagewrap" id="ui-view" data-ng-view="" data-ng-cloak=""></div>-->
 
     <div class="container">
-        <div ng-controller="TestController">
-            <h1>Testing</h1>
-            <ul>
-                <li ng-repeat="item in items">
-                    {{item.name}}
-                </li>
-            </ul>
-        </div>
+        <div ng-view></div>
     </div>
 
+<script type="text/ng-template" id="list-template.html">
+    <breadcrumbs></breadcrumbs>
+    <h1>Testing</h1>      
+    <ul>
+        <li ng-repeat="item in items">
+            <a href='#/{{item.name}}'>
+                {{ item.name | Fucking }}                
+            </a>
+        </li>
+    </ul>    
+</script>
 
-    @Scripts.Render("~/js")
+<script type="text/ng-template" id="item-template.html">
+    <breadcrumbs></breadcrumbs>
+    <h1>Details for - {{ letter.name }}:</h1>
+    <span>{{ letter.value }}</span>
+    <span>{{ letter.other }}</span>            
+</script>
+
+
+<script type="text/ng-template" id="breadcrumb-template.html">
+    <ul class="breadcrumbs">
+        <li><h3><a href="#/">Letters</a><span ng-show="letter.name"> / </span></h3></li>
+        <li><h3><a href="#/{{letter.name}}">{{letter.name}}</a></h3></li>
+    </ul>
+</script>
+
+@Scripts.Render("~/js")
 
 
     @*<script type="text/javascript">
@@ -55,6 +85,23 @@
 
             });
         </script>*@
+<script>
+    var CONFIG = {
+        url: {
+            letter: {
+                "get": '@Url.Action("GetList")',
+                "getDetails": '@Url.Action("GetLetter")',
+                "save": '@Url.Action("SaveLetter")',
+                "delete": '@Url.Action("DeleteLetter")'
+            }
+        }
+    }
 
+    angular.element(document).ready(function () {
+        var appName = 'TestApp';
+        Application.start(appName);
+        angular.bootstrap(document, [appName]);
+    });
+</script>
 </body>
 </html>
