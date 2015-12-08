@@ -303,9 +303,6 @@
   <ItemGroup>
     <Content Include="css\bootstrap.css.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="ng-test-app\data.json" />
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
