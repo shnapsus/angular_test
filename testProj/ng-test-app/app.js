@@ -35,12 +35,10 @@ App.DataService = function ($http) {
 var Application = (function () {
     function init(appName, payload) {
         // init the app
-        var module = app(appName, payload);
+        return app(appName, payload);
 
         //start angular
         //angular.bootstrap(document, [appName]);
-
-        return module;
     }
 
     function app(appName, payload) {
