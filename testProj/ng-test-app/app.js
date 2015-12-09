@@ -33,26 +33,30 @@ App.DataService = function ($http) {
 
 
 var Application = (function () {
-    function init(appName, payload) {
+    function init(appName) {
         // init the app
-        return app(appName, payload);
+        return app(appName);
 
         //start angular
         //angular.bootstrap(document, [appName]);
     }
 
-    function app(appName, payload) {
+    function app(appName) {
         angular.module('TestDirectives', [])
             .directive("autoComplete", App.Directive.AutoComplete)
             .directive("breadcrumbs", App.Directive.Breadcrumbs);
 
-        angular.module('TestFilters', []).filter("Fucking", App.FuckingFilter);
-        angular.module('TestControllers', []).controller('ListController', ['$scope', '$routeParams', 'DataService', App.Controller.ListController]);
+        angular.module('TestFilters', [])
+            .filter("Fucking", App.FuckingFilter);
+
+        angular.module('TestControllers', [])
+            .controller('ListController', ['$scope', '$routeParams', 'DataService', App.Controller.ListController]);
 
         var appModule = angular.module(appName, ['ngRoute', 'TestDirectives', 'TestControllers', 'TestFilters']);
-        appModule.factory("DataService", ['$http', App.DataService]);
 
+        appModule.factory("DataService", ['$http', App.DataService]);
         appModule.config(["$routeProvider", App.Router]);
+
         return appModule;
     }
 
