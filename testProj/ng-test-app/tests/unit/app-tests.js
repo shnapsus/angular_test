@@ -5,7 +5,9 @@
 /// <reference path="~/libraries/angular/angular-mocks.js"/>
 /// <reference path="~/ng-test-app/app.js"/>
 
-describe("Application", function() {
+describe("Application", function () {
+    'use strict';
+
     it("start returns app module", function() {
         var appModule = Application.start("TestAppName");
         
@@ -65,13 +67,15 @@ describe("Filters", function () {
     //});
 
     describe("Fucking filter", function () {
-        //it("should be registered", function () {
-        //    module("TestApp");
-        //    var $filter;
-        //    inject(function (_$filter_) { $filter = _$filter_; });
+        it("should be registered", function () {
+            var $filter = angular.injector(["ng", "TestFilters"]).get("$filter");
 
-        //    expect($filter('Fucking')).not.toBeNull();
-        //});
+            var lambda = function() { return $filter('Fucking') };
+
+            expect(lambda).not.toThrow();
+            expect(lambda()).toBeDefined();
+            expect(typeof lambda()).toEqual('function');
+        });
 
         it("should add Fucking to input string", function () {
             var filter = App.FuckingFilter();
@@ -79,12 +83,6 @@ describe("Filters", function () {
 
             expect(result).toBe("Fucking angular!");
         });
-
-        //it("should not break on null", function () {
-        //    var filter = App.FuckingFilter();
-        //    var result = filter();
-        //    expect(result).toBe("Fucking !");
-        //});
     });
 });
 
@@ -93,20 +91,25 @@ describe("Filters", function () {
 describe("Controllers", function () {
     'use strict';
 
-    beforeEach(module("TestControllers"));
-
     describe("ListController", function () {
-        
-        //it("should be registered", function () {
-        //    module("TestControllers");
-        //    var $controller;
-        //    inject(function (_$controller_) { $controller = _$controller_; });
-        //    console.log($controller);
-        //    expect($controller('ListsController', { $scope: {}, DataService: {lettersList: function (){}} })).not.toBeNull();
-        //});
+        it("should be registered", function () {
+            var dataServiceMock = {
+                letterList: function () { return { then: function () { } } }
+            };
+            var $controller = angular.injector(["ng", "TestControllers"]).get("$controller");
 
+            var ctrlName = "ListController";
+            var lambda = function() {
+                return $controller(ctrlName, { $scope: {}, $routeParams: {}, DataService: dataServiceMock });
+            };
+            expect(lambda).not.toThrowError(/Argument '/ + ctrlName + /' is not a function/);
+            expect(lambda()).toBeDefined();
+            expect(typeof lambda()).toEqual('object');
+        });
+
+        
         var _controller, $q, $rootScope;
-        beforeEach(function() {
+        beforeAll(function() {
             _controller = App.Controller.ListController;
 
             var injector = angular.injector(['ng']);
@@ -135,7 +138,7 @@ describe("Controllers", function () {
             expect(scope.letter).toBeUndefined();
         });
 
-        it("requests list data when has 'name' in route params", function () {
+        it("requests details data when has 'name' in route params", function () {
             var scope = {},
                 routeParams = {name:"A"},
                 dataService = { letterDetails: function () { } };
