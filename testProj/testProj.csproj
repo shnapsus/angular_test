@@ -267,6 +267,7 @@
     <Content Include="libraries\angular\angular.js" />
     <Content Include="libraries\bootstrap\ui-bootstrap-tpls-0.12.0.js" />
     <Content Include="libraries\jquery\jquery-2.1.1.js" />
+    <Content Include="libraries\phantomjs.exe" />
     <Content Include="libraries\QUnit\qunit-1.17.1.css" />
     <Content Include="libraries\QUnit\qunit-1.17.1.js" />
     <Content Include="ng-test-app\app.js" />
