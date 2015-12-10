@@ -335,6 +335,19 @@ describe("Directives", function() {
                 expect(el.hasClass("no-results")).toBeTruthy();
                 expect(el.find("li").html()).toEqual("No results found");
             });
+            
+            it("calls callback function on select", function () {
+                var scope = $rootScope.$new();
+                scope.autocompleteData = [{ text: "Alabama", value: 1 }, { text: "Canada", value: 2 }];
+                scope.selected = jasmine.createSpy("selected");
+
+                var element = getCompiledElement(scope);
+
+                element.find("input").triggerHandler("click");
+                angular.element(element.find("li")[0]).triggerHandler("click");
+
+                expect(scope.selected).toHaveBeenCalledWith(jasmine.objectContaining({ text: "Alabama", value: 1 }));
+            });
         });
 
 
