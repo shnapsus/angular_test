@@ -1,0 +1,13 @@
+﻿<div>
+    <input class="autocompleteinput" type="text" data-id="{{ selectedValue }}" ng-value="selectedText" ng-model="userInput" ng-keyup="typing()" ng-click="typing()"/>
+    <ul ng-show="shouldShow">
+        <li ng-repeat="item in items | filter:userInput as results" data-id="{{ item[valueField] }}" ng-click="selectItem(item)">
+            {{ item[textField] }}
+        </li>
+    </ul>
+    <ul class="no-results" ng-if="results.length === 0 && shouldShow">
+        <li data-id="">
+            No results found
+        </li>
+    </ul>
+</div>

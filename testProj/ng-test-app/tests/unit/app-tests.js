@@ -201,13 +201,26 @@ describe("Directives", function() {
         describe("behaviors:", function() {
             var $compile, $rootScope, $document;
 
+            function httpGetSync(filePath) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", filePath, false);
+                xhr.send();
+                return xhr.responseText;
+            }
+
             beforeEach(function () {
                 Application.start("A");
                 module('TestDirectives');
             });
 
+            beforeEach(inject(['$templateCache', function ($templateCache) {
+                var path = "/ng-test-app/templates/autocomplete.html";
+                var response = httpGetSync(path);
+                $templateCache.put(path, response);
+            }]));
+
             beforeEach(inject([
-                '$compile', '$rootScope', '$document', function($c, $r, $d) {
+                '$compile', '$rootScope', '$document', function ($c, $r, $d) {
                     $compile = $c;
                     $rootScope = $r;
                     $document = $d;
@@ -222,7 +235,7 @@ describe("Directives", function() {
                 var html = '<auto-complete data="autocompleteData" text-field="name" value-field="id" on-select="selected(item)"></auto-complete>';
                 var element = $compile(html)(scope);
 
-                //scope.$digest();
+                scope.$digest();
                 var isolateScope = element.isolateScope();
 
                 expect(isolateScope).not.toBeNull();
@@ -263,7 +276,7 @@ describe("Directives", function() {
                 expect(element.find('ul').hasClass("ng-hide")).toBeTruthy();
             });
 
-            it("dropdown list shows on click on input", function () {
+            it("dropdown list shows when click on input", function () {
                 var scope = $rootScope.$new();
                 scope.autocompleteData = [{ text: "A", value: 1 }, { text: "B", value: 2 }];
 
@@ -283,7 +296,7 @@ describe("Directives", function() {
                 expect(element.find('ul').hasClass("ng-hide")).toBeFalsy();
             });
 
-            it("dropdown list hides on select", function () {
+            it("dropdown list hides when select item", function () {
                 var scope = $rootScope.$new();
                 scope.autocompleteData = [{ text: "A", value: 1 }, { text: "B", value: 2 }];
 
@@ -317,7 +330,7 @@ describe("Directives", function() {
                 scope.$apply();
                 
                 expect(element.find("li").length).toEqual(1);
-                expect(element.find("li").html()).toEqual("Canada");
+                expect(element.find("li").html().trim()).toEqual("Canada");
             });
 
             it("shows No results when no matches", function () {
@@ -333,10 +346,10 @@ describe("Directives", function() {
                 var el = angular.element(element.find("ul")[1]);
 
                 expect(el.hasClass("no-results")).toBeTruthy();
-                expect(el.find("li").html()).toEqual("No results found");
+                expect(el.find("li").html().trim()).toEqual("No results found");
             });
             
-            it("calls callback function on select", function () {
+            it("invokes callback function on select", function () {
                 var scope = $rootScope.$new();
                 scope.autocompleteData = [{ text: "Alabama", value: 1 }, { text: "Canada", value: 2 }];
                 scope.selected = jasmine.createSpy("selected");

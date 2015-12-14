@@ -49,16 +49,17 @@ plugins.AutoComplete = function ($document) {
             $document.on("click", documentClick);
             scope.$on('$destroy', function () { $document.off("click", documentClick) });
         },
-        template:
-            "<div>" +
-                "<input class='autocompleteinput' type='text' ng-model='userInput' ng-keyup='typing()' ng-click='typing()' ng-value='selectedText' data-id='{{ selectedValue }}' />" +
-                "<ul ng-show='shouldShow'>" +
-                    "<li ng-click='selectItem(item)' ng-repeat='item in items | filter:userInput as results' data-id='{{ item[valueField] }}'>{{ item[textField] }}</li>" +
-                "</ul>" +
-                "<ul class='no-results' ng-if='results.length === 0 && shouldShow'>" +
-                    "<li data-id=''>No results found</li>" +
-                "</ul>" +
-            "</div>"
+        templateUrl: "/ng-test-app/templates/autocomplete.html"
+        //template1:
+        //    "<div>" +
+        //        "<input class='autocompleteinput' type='text' ng-model='userInput' ng-keyup='typing()' ng-click='typing()' ng-value='selectedText' data-id='{{ selectedValue }}' />" +
+        //        "<ul ng-show='shouldShow'>" +
+        //            "<li ng-click='selectItem(item)' ng-repeat='item in items | filter:userInput as results' data-id='{{ item[valueField] }}'>{{ item[textField] }}</li>" +
+        //        "</ul>" +
+        //        "<ul class='no-results' ng-if='results.length === 0 && shouldShow'>" +
+        //            "<li data-id=''>No results found</li>" +
+        //        "</ul>" +
+        //    "</div>"
     }
 }
 

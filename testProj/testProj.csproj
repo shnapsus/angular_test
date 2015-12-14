@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -276,6 +277,7 @@
     <Content Include="ng-test-app\directives.js" />
     <Content Include="ng-test-app\filters.js" />
     <Content Include="ng-test-app\router.js" />
+    <Content Include="ng-test-app\templates\autocomplete.html" />
     <Content Include="ng-test-app\tests\unit\app-tests.js" />
     <Content Include="libraries\jasmine\boot.js" />
     <Content Include="libraries\jasmine\console.js" />
@@ -295,7 +297,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ng-test-app\templates\" />
     <Folder Include="ng-test-app\tests\e2e\" />
   </ItemGroup>
   <ItemGroup>
