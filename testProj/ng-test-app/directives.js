@@ -12,42 +12,53 @@ plugins.AutoComplete = function ($document) {
             valueField: "@",
             callback: "&onSelect"
         },
-        link: function (scope, element, attrs) {
-            console.log("scope", scope);
-            scope.shouldShow = false;
-            scope.selectedValue = "";
-            scope.selectedText = "";
+        controllerAs: "vm",
+        controller: function ($scope, $element) {
+            //console.log("scope", $scope);
+            var vm = this;
+            vm.shouldShow = false;
+            vm.selectedValue = "";
+            vm.selectedText = "";
 
-            scope.typing = function () {
-                console.log("click", scope.shouldShow);
-                scope.shouldShow = true;
+            vm.open = function($event) {
+                //console.log("click", vm.shouldShow);
+                $event.stopPropagation();
+                vm.shouldShow = true;
             }
-            scope.blur = function () {
-                //scope.shouldShow = false;
+            vm.typing = function () {
+                //console.log("typing");
+                vm.shouldShow = true;
             }
-            scope.selectItem = function (item) {
-                //console.log("clicked", item);
-                console.log("scope", scope);
 
-                scope.selectedText = item[scope.textField];
-                scope.selectedValue = item[scope.valueField];
-                
-                scope.callback({ item: item });
-                scope.shouldShow = false;
+            vm.selectItem = function (item) {
+                //console.log("clicked", item, $scope.textField, $scope.valueField);
+                vm.text = item[$scope.textField];
+                vm.selectedValue = item[$scope.valueField];
+                vm.shouldShow = false;
+
+                $scope.callback({ item: item });
             }
+
+            $scope.$watch(function() {
+                return vm.shouldShow;
+            }, function (newValue, oldValue) {
+                //console.log("vm.shouldShow watcher");
+                newValue ? $document.on("click", documentClick) : $document.off("click", documentClick);
+            });
+            
+            //$document.on("click", documentClick);
+            $scope.$on('$destroy', function () { $document.off("click", documentClick) });
 
             var documentClick = function (event) {
-                console.log("docclick", scope.shouldShow);
-                if (scope.shouldShow) {
+                //console.log("document click", vm.shouldShow);
+                if (vm.shouldShow) {
                     var target = event.target;//angular.element(event.target);
-                    if (!element[0].contains(target)) { // || element[0] == target[0])) {
-                        console.log("closing");
-                        scope.$apply(function() { scope.shouldShow = false; });
+                    if (!$element[0].contains(target)) { // || element[0] == target[0])) {
+                        //console.log("closing");
+                        $scope.$apply(function () { vm.shouldShow = false; });
                     }
                 }
             };
-            $document.on("click", documentClick);
-            scope.$on('$destroy', function () { $document.off("click", documentClick) });
         },
         templateUrl: "/ng-test-app/templates/autocomplete.html"
         //template1:

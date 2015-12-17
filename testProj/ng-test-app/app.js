@@ -5,11 +5,13 @@ App.Router = function ($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "list-template.html",
-            controller: "ListController"
+            controller: "ListController",
+            controllerAs: 'vm'
         })
         .when("/:name", {
             templateUrl: "item-template.html",
-            controller: "ListController"
+            controller: "ListController",
+            controllerAs: 'vm'
         })
         .otherwise({
             template: "<h1>Not Found</h1>"
@@ -50,12 +52,12 @@ var Application = (function () {
             .filter("Fucking", App.FuckingFilter);
 
         angular.module('TestControllers', [])
-            .controller('ListController', ['$scope', '$routeParams', 'DataService', App.Controller.ListController]);
+            .controller('ListController', ['$routeParams', 'DataService', App.Controller.ListController]);
 
-        var appModule = angular.module(appName, ['ngRoute', 'TestDirectives', 'TestControllers', 'TestFilters']);
-
-        appModule.factory("DataService", ['$http', App.DataService]);
-        appModule.config(["$routeProvider", App.Router]);
+        var appModule = angular
+                .module(appName, ['ngRoute', 'TestDirectives', 'TestControllers', 'TestFilters'])
+                .factory("DataService", ['$http', App.DataService])
+                .config(["$routeProvider", App.Router]);
 
         return appModule;
     }

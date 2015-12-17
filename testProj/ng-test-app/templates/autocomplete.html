@@ -1,11 +1,11 @@
 ﻿<div>
-    <input class="autocompleteinput" type="text" data-id="{{ selectedValue }}" ng-value="selectedText" ng-model="userInput" ng-keyup="typing()" ng-click="typing()"/>
-    <ul ng-show="shouldShow">
-        <li ng-repeat="item in items | filter:userInput as results" data-id="{{ item[valueField] }}" ng-click="selectItem(item)">
+    <input class="autocompleteinput" type="text" data-id="{{ vm.selectedValue }}" ng-model="vm.text" ng-keyup="vm.typing()" ng-click="vm.open($event)"/>
+    <ul ng-show="vm.shouldShow">
+        <li ng-repeat="item in items | filter:vm.text as results" data-id="{{ item[valueField] }}" ng-click="vm.selectItem(item)">
             {{ item[textField] }}
         </li>
     </ul>
-    <ul class="no-results" ng-if="results.length === 0 && shouldShow">
+    <ul class="no-results" ng-if="results.length === 0 && vm.shouldShow">
         <li data-id="">
             No results found
         </li>

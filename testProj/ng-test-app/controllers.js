@@ -2,8 +2,10 @@
 var App = App || {};
 var controllers = (App.Controller = App.Controller || {});
 
-controllers.ListController = function ($scope, $routeParams, DataService) {
-    $scope.autocompleteData = [
+controllers.ListController = function ($routeParams, DataService) {
+    var vm = this;
+
+    vm.autocompleteData = [
         { value: 10, text: "Alaska" },
         { value: 11, text: "Canada" },
         { value: 12, text: "NY" },
@@ -11,16 +13,16 @@ controllers.ListController = function ($scope, $routeParams, DataService) {
         { value: 14, text: "Budapest" }
     ];
 
-    $scope.selected = function(item) {
+    vm.selected = function(item) {
         console.log("Got item in controller", item);
     }
 
     if ($routeParams.name) {
-        return DataService.letterDetails($routeParams)
-            .then(function (response) { $scope.letter = response.data; });
+        DataService.letterDetails($routeParams)
+            .then(function (response) { vm.letter = response.data; });
     } else {
-        return DataService.letterList()
-            .then(function (response) { $scope.items = response.data; });
+        DataService.letterList()
+            .then(function (response) { vm.items = response.data; });
     }
 }
 

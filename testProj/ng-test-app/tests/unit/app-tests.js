@@ -74,15 +74,26 @@ describe("Controllers", function () {
     'use strict';
 
     describe("ListController", function () {
+
+        var $controller;
+
+        beforeEach(function () {
+            Application.start("A");
+            module('TestControllers');
+            
+            inject(function (_$controller_) {
+                $controller = _$controller_;
+            });
+        });
+
         it("is registered", function () {
             var dataServiceMock = {
                 letterList: function () { return { then: function () { } } }
             };
-            var $controller = angular.injector(["ng", "TestControllers"]).get("$controller");
 
             var ctrlName = "ListController";
             var lambda = function() {
-                return $controller(ctrlName, { $scope: {}, $routeParams: {}, DataService: dataServiceMock });
+                return $controller(ctrlName, { $routeParams: {}, DataService: dataServiceMock });
             };
 
             expect(lambda).not.toThrowError(/Argument '/ + ctrlName + /' is not a function/);
@@ -91,19 +102,8 @@ describe("Controllers", function () {
             expect(typeof lambda()).toEqual('object');
         });
 
-        
-        var _controller, $q, $rootScope;
-        beforeAll(function() {
-            _controller = App.Controller.ListController;
-
-            var injector = angular.injector(['ng']);
-            $q = injector.get("$q");
-            $rootScope = injector.get("$rootScope");
-        });
-
-        it("requests list data when no route params", function () {
-            var scope = {},
-                routeParams = {},
+        it("requests list data when no route params", inject(function ($q, $rootScope) {
+            var routeParams = {},
                 dataService = { letterList: function() {} };
             
             var deferred = $q.defer();
@@ -114,17 +114,16 @@ describe("Controllers", function () {
             var data = [{ name: "A", other: "111" }, { name: "B", other: "222" }];
             deferred.resolve({ data: data });
             
-            _controller(scope, routeParams, dataService);
+            var ctrl = new App.Controller.ListController(routeParams, dataService);
             $rootScope.$apply();
 
             expect(dataService.letterList).toHaveBeenCalledWith();
-            expect(scope.items).toEqual(data);
-            expect(scope.letter).toBeUndefined();
-        });
+            expect(ctrl.items).toEqual(data);
+            expect(ctrl.letter).toBeUndefined();
+        }));
 
-        it("requests details data when has 'name' in route params", function () {
-            var scope = {},
-                routeParams = {name:"A"},
+        it("requests details data when has 'name' in route params", inject(function ($q, $rootScope) {
+            var routeParams = {name:"A"},
                 dataService = { letterDetails: function () { } };
 
             var deferred = $q.defer();
@@ -135,13 +134,13 @@ describe("Controllers", function () {
             var data = { name: "A", other: "111" };
             deferred.resolve({ data: data });
 
-            _controller(scope, routeParams, dataService);
+            var ctrl = new App.Controller.ListController(routeParams, dataService);
             $rootScope.$apply();
 
             expect(dataService.letterDetails).toHaveBeenCalledWith(routeParams);
-            expect(scope.letter).toEqual(data);
-            expect(scope.items).toBeUndefined();
-        });
+            expect(ctrl.letter).toEqual(data);
+            expect(ctrl.items).toBeUndefined();
+        }));
     });
 });
 
@@ -326,7 +325,7 @@ describe("Directives", function() {
                 
                 var element = getCompiledElement(scope);
                 
-                element.isolateScope().userInput = "nada";
+                element.isolateScope().vm.text = "nada";
                 scope.$apply();
                 
                 expect(element.find("li").length).toEqual(1);
@@ -339,7 +338,7 @@ describe("Directives", function() {
 
                 var element = getCompiledElement(scope);
 
-                element.isolateScope().userInput = "xxx";
+                element.isolateScope().vm.text = "xxx";
                 scope.$apply();
                 element.find("input").triggerHandler("click");
 

@@ -45,28 +45,28 @@
     <breadcrumbs></breadcrumbs>
     <h1>Testing</h1>      
     <ul>
-        <li ng-repeat="item in items">
+        <li ng-repeat="item in vm.items">
             <a href='#/{{item.name}}'>
                 {{ item.name | Fucking }}                
             </a>
         </li>
     </ul>    
     <h2>Autocomplete test</h2>
-    <auto-complete data="autocompleteData" text-field="text" value-field="value" on-select="selected(item)"></auto-complete>
+    <auto-complete data="vm.autocompleteData" text-field="text" value-field="value" on-select="vm.selected(item)"></auto-complete>
 </script>
 
 <script type="text/ng-template" id="item-template.html">
     <breadcrumbs></breadcrumbs>
-    <h1>Details for - {{ letter.name }}:</h1>
-    <span>{{ letter.value }}</span>
-    <span>{{ letter.other }}</span>            
+    <h1>Details for - {{ vm.letter.name }}:</h1>
+    <span>{{ vm.letter.value }}</span>
+    <span>{{ vm.letter.other }}</span>            
 </script>
 
 
 <script type="text/ng-template" id="breadcrumb-template.html">
     <ul class="breadcrumbs">
-        <li><h3><a href="#/">Letters</a><span ng-show="letter.name"> / </span></h3></li>
-        <li><h3><a href="#/{{letter.name}}">{{letter.name}}</a></h3></li>
+        <li><h3><a href="#/">Letters</a><span ng-show="vm.letter.name"> / </span></h3></li>
+        <li><h3><a href="#/{{vm.letter.name}}">{{vm.letter.name}}</a></h3></li>
     </ul>
 </script>
 
